@@ -18,6 +18,7 @@ if serial is not working:
 - Run "$ bash set.gpio 59 1" (script location is on sensorlab github cb-iot repository)
 - Also if you had to run this command manualy create a new service in systemd that
 will automaticly run and remap serial ports.
+- Make sure that your script has suitable shebang (#!/usr/bin/env python3)
 
 If no response:
 - Run systemctl start pmc-check-wiring.service 
