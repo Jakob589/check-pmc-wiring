@@ -12,6 +12,7 @@ ON PMC: (serial port on pmc is "ttyS2")
 
 1. Start avahi-daemon with XML script - use unique service names like saam-pmc1,2,3,...!
 2. Run "$ bash wams-test.sh" to see if serial is working
+3. run pmc-check-wiring.py if not already ****AT THIS POINT I COULD NOT IMPLEMENT EXTRA SPECEFICATIONS, SINCE I DO NOT HAVE THEM YET****
 
 Troubleshooting:
 if serial is not working: 
