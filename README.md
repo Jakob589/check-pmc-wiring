@@ -11,23 +11,18 @@ ON eGATEWAY:
 
 ON PMC: (serial port on pmc is "ttyS2") 
 
+0. Run "$ bash set-gpio 59 1" location - https://github.com/sensorlab/cp-iot-support/blob/master/debug/set-gpio.sh turns on the measurement board
 1. Start avahi-daemon with XML script - use unique service names like saam-pmc1, 2, 3,...!
 2. Run "$ bash wams-test.sh" to see if serial is working.
 3. Run pmc-check-wiring.py if not already 
 
-installing zerorpc on bone-debian
+installing zerorpc and serial on bone-debian
 - RUN apt-get update
 - RUN apt-get install -y avahi-utils python3-pip python3-zmq python3-gevent
 - RUN pip3 install zerorpc
-
-installing avahi-daemon on PMC
-- install avahi-daemon 
-- in /etc/avahi/serices add file saam-pmc.service
-- restart avahi-daemon "systemctl restart avahi-daemon.service"
-
+- RUN pip3 install pyserial
 Troubleshooting:
 if serial is not working: 
-- Run "$ bash set.gpio 59 1" (script location is on sensorlab github cb-iot repository).
 - Also if you had to run this command manualy create a new service in systemd that
 will automaticly run and remap serial ports.
 - Make sure that your script has suitable shebang (#!/usr/bin/env python3).
