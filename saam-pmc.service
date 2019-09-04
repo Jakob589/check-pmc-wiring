@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
-<!DOCTYPE service-grou SYSTEM "avahi-service.dtd">
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 
 <service-group>
   <name>saam-pmc</name>
