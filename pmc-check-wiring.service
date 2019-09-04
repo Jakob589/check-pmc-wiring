@@ -1,5 +1,5 @@
 [Unit]
-Description=Reads serial port ALL THE TIME
+Description=When script recieves zerorpc call it reads serialport and responds if its connected correctly
 
 [Service]
 ExecStart=/root/measure/pmc-check-wiring.py
