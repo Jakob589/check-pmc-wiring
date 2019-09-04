@@ -30,9 +30,9 @@ class testPMC_RPC(object):
         phase1VoltageRMS = float(data[1])
         phase2VoltageRMS = float(data[2])
         phase3VoltageRMS = float(data[3])
-        phase1CurrentRMS = float(data[4])
-        phase2CurrentRMS = float(data[5])
-        phase3CurrentRMS = float(data[6])
+        phase1CurrentRMS = float(data[4]) * 10 #measures only 10% of actual current 
+        phase2CurrentRMS = float(data[5]) * 10 #remove "* 10" in case measurement board software gets updated
+        phase3CurrentRMS = float(data[6]) * 10 
         freq = float(data[8])
         phase2AngleV = float(data[9]) # angle between first and second phase - normally around 120°
         phase3AngleV = float(data[10]) # angle between third and second phase - normally around -120°     
@@ -97,7 +97,7 @@ class testPMC_RPC(object):
             elif phase3AngleV > -100 or phase3AngleV < -150 :
                 return "%s has faulty wiring, phase 2 and 3 are the same. FIX: connect L3 to different phase than L2 or L1  angle 3 = %.2f° " % (name, phase3AngleV) 
 
-            else: 
+            else: #return data for debuging
                 return "OK"
 
 
