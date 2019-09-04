@@ -1,0 +1,8 @@
+[Unit]
+Description=Reads serial port ALL THE TIME
+
+[Service]
+ExecStart=/root/measure/pmc-check-wiring.py
+
+[Install]
+WantedBy=multi-user.target
