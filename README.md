@@ -8,11 +8,17 @@ ON eGATEWAY:
 2. Run "check-wiring.py".
 3. Check output .
 
+
 ON PMC: (serial port on pmc is "ttyS2") 
 
 1. Start avahi-daemon with XML script - use unique service names like saam-pmc1, 2, 3,...!
 2. Run "$ bash wams-test.sh" to see if serial is working.
 3. Run pmc-check-wiring.py if not already 
+
+installing zerorpc on bone-debian
+RUN apt-get update
+RUN apt-get install -y avahi-utils python3-pip python3-zmq python3-gevent
+RUN pip3 install zerorpc
 
 Troubleshooting:
 if serial is not working: 
