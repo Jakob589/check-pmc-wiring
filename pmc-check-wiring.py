@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+
 import zerorpc
 import serial
 import io
+import os
+import time
 
 
 def serial_read():
+    
     ser = serial.Serial('/dev/ttyS2',
                         baudrate=115200,
                         bytesize=serial.EIGHTBITS,
@@ -11,28 +16,38 @@ def serial_read():
                         stopbits=serial.STOPBITS_ONE,
                         timeout=1)
 
+    
     sio = io.TextIOWrapper(io.BufferedReader(ser))
     while True:
             try:
                 serial_data = sio.readline()
                 data = serial_data.strip().split(',')
-            
                 return data
             except:
                 print("serial error")
                 continue
+        
 
 
 class testPMC_RPC(object):
     def test(self, name): 
+        os.system('systemctl stop saam-comread.service')
+        os.system('sleep 50000 && systemctl start saam-comread.service &')
+
+        f = open("/root/SAAM_NILM/loc-id", "w+")
+        f.write(name + "\n") # write loc id to alogorithm folder
+        f.close
 
         data = serial_read()
+        os.system('timeout 1 sudo getty -L -f 115200 ttyS2 vt100')
+        os.system('systemctl start saam-comread.service')	 
+
         phase1VoltageRMS = float(data[1])
         phase2VoltageRMS = float(data[2])
         phase3VoltageRMS = float(data[3])
-        phase1CurrentRMS = float(data[4]) * 10 #measures only 10% of actual current 
-        phase2CurrentRMS = float(data[5]) * 10 #remove "* 10" in case measurement board software gets updated
-        phase3CurrentRMS = float(data[6]) * 10 
+        phase1CurrentRMS = float(data[4]) 
+        phase2CurrentRMS = float(data[5]) 
+        phase3CurrentRMS = float(data[6]) 
         freq = float(data[8])
         phase2AngleV = float(data[9]) # angle between first and second phase - normally around 120°
         phase3AngleV = float(data[10]) # angle between third and second phase - normally around -120°     
