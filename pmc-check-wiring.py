@@ -2,9 +2,7 @@
 
 import zerorpc
 import serial
-import io
 import os
-import time
 
 def serial_read():
     
