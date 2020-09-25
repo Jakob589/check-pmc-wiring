@@ -6,7 +6,6 @@ import io
 import os
 import time
 
-
 def serial_read():
     
     ser = serial.Serial('/dev/ttyS2',
@@ -15,32 +14,51 @@ def serial_read():
                         parity=serial.PARITY_ODD,
                         stopbits=serial.STOPBITS_ONE,
                         timeout=1)
-
     
-    sio = io.TextIOWrapper(io.BufferedReader(ser))
-    while True:
-            try:
-                serial_data = sio.readline()
-                data = serial_data.strip().split(',')
-                return data
-            except:
-                print("serial error")
-                continue
-        
+    for x in range(5):
+        try:
+
+            serial_data = ser.readline().decode('utf-8').split(",")
+
+            if len(serial_data) != 54:
+                print("lenght error")
+                raise ValueError("len err") 
+            
+            print("returned data")
+            ser.reset_output_buffer()
+            ser.reset_input_buffer()
+            ser.__exit__() 
+            return serial_data
+
+        except:
+            print("serial error")
+            time.sleep(.5)
+            continue
+
+    ser.reset_output_buffer()
+    ser.reset_input_buffer()
+    ser.__exit__() 
+    print("exited function with null")
+
 
 
 class testPMC_RPC(object):
     def test(self, name): 
-        os.system('systemctl stop saam-comread.service')
-        os.system('sleep 50000 && systemctl start saam-comread.service &')
 
         f = open("/root/SAAM_NILM/loc-id", "w+")
         f.write(name + "\n") # write loc id to alogorithm folder
         f.close
 
+        os.system('systemctl stop saam-comread.service')
+        os.system('sleep 50000 && systemctl start saam-comread.service &')
+
         data = serial_read()
+
         os.system('timeout 1 sudo getty -L -f 115200 ttyS2 vt100')
         os.system('systemctl start saam-comread.service')	 
+
+        if data == None:
+            return"%s has problem with serial port, please try again. If this keeps happening reboot PMC" % (name)
 
         phase1VoltageRMS = float(data[1])
         phase2VoltageRMS = float(data[2])
