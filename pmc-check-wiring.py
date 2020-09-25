@@ -21,7 +21,6 @@ def serial_read():
             serial_data = ser.readline().decode('utf-8').split(",")
 
             if len(serial_data) != 54:
-                print("lenght error")
                 raise ValueError("len err") 
             
             print("returned data")
@@ -38,7 +37,7 @@ def serial_read():
     ser.reset_output_buffer()
     ser.reset_input_buffer()
     ser.__exit__() 
-    print("exited function with null")
+    print("exited with null")
 
 
 
