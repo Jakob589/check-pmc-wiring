@@ -1,16 +1,13 @@
-import csv
+#!/usr/bin/env python3
+
 import time
+import csv
 import socket
 import subprocess 
 import zerorpc
 import sys
 import os
  
-def save_ip_txt(ip):
-	f= open("pmc_ip.csv","w+")
-	f.write(ip)
-
-
 def get_service(service_name):
 	cntr = 1
 	while True:
@@ -26,8 +23,8 @@ def get_service(service_name):
 				except socket.error:
 					pass
 		time.sleep(5)
-		cntr += 3
-		if cntr > 1:
+		cntr += 1
+		if cntr > 3:
 			print("Device not found, please try again. Check if PMC is connected to power.",end='')
 			exit()
 		
@@ -37,13 +34,14 @@ def get_service(service_name):
 service_name = "saam-pmc"
 ip = get_service(service_name)
 
+loc_id = open('/etc/lgtc/loc-id').readline().strip()
 
 c = zerorpc.Client()
 c.connect("tcp://%s" % ip)
 
 if True:
 	try:
-		msg = c.test("response: %s" % service_name)
+		msg = c.test(loc_id) ##send location id
 		print(msg,end='')
 	except:
 		print("Device not found, please try again. Check if PMC is connected to power.",end='')
