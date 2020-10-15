@@ -25,7 +25,7 @@ def serial_read():
             print("returned data")
             ser.reset_output_buffer()
             ser.reset_input_buffer()
-            ser.__exit__() 
+            ser.close() 
             return serial_data
 
         except:
@@ -35,7 +35,7 @@ def serial_read():
 
     ser.reset_output_buffer()
     ser.reset_input_buffer()
-    ser.__exit__() 
+    ser.close() 
     print("exited with null")
 
 
